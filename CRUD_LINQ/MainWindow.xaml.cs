@@ -38,9 +38,11 @@ namespace CRUD_LINQ
             // InsertarEmpleados();
             //InsertarCargo();
             //AsignarCargos();
-            //MostrarInformacion();
+            MostrarInformacion();
             //ActualizaEmpleado();
-            DeleteEmpleado();
+            //DeleteEmpleado();
+
+            ShowData();
 
         }
 
@@ -139,11 +141,15 @@ namespace CRUD_LINQ
         public void DeleteEmpleado()
         {
             Empleado buscar = dataContext.Empleado.First(em => em.Id.Equals(7));
-
             dataContext.Empleado.DeleteOnSubmit(buscar);
             dataContext.SubmitChanges();
             MostrarInformacion();
 
+        }
+
+        public void ShowData()
+        {
+            vistaEmp.ItemsSource = dataContext.Empleado;
         }
     }
 }

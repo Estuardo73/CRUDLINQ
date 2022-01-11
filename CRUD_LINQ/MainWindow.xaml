@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CRUD_LINQ"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <DataGrid x:Name="Principal" HorizontalAlignment="Center" Height="400" Width="780" Margin="10" VerticalAlignment="Top"></DataGrid>          
+        Title="MainWindow" Height="800" Width="1000">
+    <Grid Margin="0,0,-217,-118">
+        <DataGrid x:Name="Principal" HorizontalAlignment="Center" Height="235" Width="780" Margin="20,30,409,0" VerticalAlignment="Top">
+        </DataGrid>
+        <DataGrid x:Name="vistaEmp" HorizontalAlignment="Left" Width="800" Margin="20,280,249,362" AutoGenerateColumns="False"
+                  Foreground="Black" FontSize="12" ColumnHeaderHeight="45" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="75" Header=" Codigo"  Binding="{Binding Id}" >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Beige"></Setter>
+                            <Setter Property="FontSize" Value="14"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Setter Property="BorderBrush" Value="Black"></Setter>
+                            <Setter Property="BorderThickness" Value="0,1"></Setter>                            
+                         </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="350" Header=" Nombre" Binding="{Binding Nombre}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Beige"></Setter>
+                            <Setter Property="FontSize" Value="14"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Setter Property="BorderBrush" Value="Black"></Setter>
+                            <Setter Property="BorderThickness" Value="1,1"></Setter>
+                            
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="350" Header=" Apellido" Binding="{Binding Apellido}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Beige"></Setter>
+                            <Setter Property="FontSize" Value="14"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Setter Property="BorderBrush" Value="Black"></Setter>
+                            <Setter Property="BorderThickness" Value="1,1"></Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

@@ -35,12 +35,13 @@ namespace CRUD_LINQ
             dataContext = new DataClasses1DataContext(miConexionSQL);
 
             InsertaEmpresas();
+            // InsertarEmpleados();
+
         }
 
         public void InsertaEmpresas()
         {
-            //dataContext.ExecuteCommand("delete from empresa");
-
+           /*dataContext.ExecuteCommand("delete from empresa");
 
             Empresa Empresa1 = new Empresa();
             Empresa1.Nombre = "Empresa 1 de Empresas";
@@ -50,8 +51,38 @@ namespace CRUD_LINQ
             Empresa2.Nombre = "Empresa 2 de Empresas";
             dataContext.Empresa.InsertOnSubmit(Empresa2);
 
-            dataContext.SubmitChanges();
+            dataContext.SubmitChanges();*/
+
             Principal.ItemsSource = dataContext.Empresa;
+        }
+
+        public void InsertarEmpleados()
+        {
+
+
+           /* Empresa Empresa1 = dataContext.Empresa.First(em => em.Nombre.Equals("Empresa 1 de Empresas"));
+            Empresa Empresa2 = dataContext.Empresa.First(em => em.Nombre.Equals("Empresa 2 de Empresas"));
+
+            List<Empleado> listaEmp = new List<Empleado>();
+
+            listaEmp.Add(new Empleado { Nombre = "Carlos", Apellido = "Lopez", IdEmpresa = Empresa1.Id });
+            listaEmp.Add(new Empleado { Nombre = "Estuardo", Apellido = "Roca",IdEmpresa = Empresa1.Id });
+
+            listaEmp.Add(new Empleado { Nombre = "Carlos", Apellido = "Lopez", IdEmpresa = Empresa2.Id });
+            listaEmp.Add(new Empleado { Nombre = "Estuardo", Apellido = "Roca", IdEmpresa = Empresa2.Id });
+
+            dataContext.Empleado.InsertAllOnSubmit(listaEmp);
+            
+            Empleado Emp1 = new Empleado();
+            Emp1.Nombre = "Carlos";
+            Emp1.Apellido = "Lopez Roca";
+            Emp1.IdEmpresa = 4;
+            dataContext.Empleado.InsertOnSubmit(Emp1);
+
+            dataContext.SubmitChanges();*/
+
+            Principal.ItemsSource = dataContext.Empleado;
+
         }
     }
 }

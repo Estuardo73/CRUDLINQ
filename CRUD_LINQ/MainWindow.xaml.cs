@@ -38,7 +38,9 @@ namespace CRUD_LINQ
             // InsertarEmpleados();
             //InsertarCargo();
             //AsignarCargos();
-            MostrarInformacion();
+            //MostrarInformacion();
+            //ActualizaEmpleado();
+            DeleteEmpleado();
 
         }
 
@@ -123,6 +125,25 @@ namespace CRUD_LINQ
         public void  MostrarInformacion()
         {
             Principal.ItemsSource = dataContext.v_informacion;
+        }
+
+        public void ActualizaEmpleado()
+        {
+            Empleado buscar = dataContext.Empleado.First(em => em.Id.Equals(3));
+
+            buscar.Nombre = "Carlos Estuardo";
+            dataContext.SubmitChanges();
+            MostrarInformacion();
+        }
+
+        public void DeleteEmpleado()
+        {
+            Empleado buscar = dataContext.Empleado.First(em => em.Id.Equals(7));
+
+            dataContext.Empleado.DeleteOnSubmit(buscar);
+            dataContext.SubmitChanges();
+            MostrarInformacion();
+
         }
     }
 }

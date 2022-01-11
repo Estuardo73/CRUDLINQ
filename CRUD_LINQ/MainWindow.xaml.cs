@@ -32,14 +32,26 @@ namespace CRUD_LINQ
 
             string miConexionSQL = ConfigurationManager.ConnectionStrings["CRUD_LINQ.Properties.Settings.ConexionEmpresa"].ConnectionString;
 
-            dataContext = new DataClasses1DataContext(miConexionSQL);           
+            dataContext = new DataClasses1DataContext(miConexionSQL);
 
+            InsertaEmpresas();
         }
 
         public void InsertaEmpresas()
         {
-            Empresa Empresa1 = new Empresa();
+            //dataContext.ExecuteCommand("delete from empresa");
 
+
+            Empresa Empresa1 = new Empresa();
+            Empresa1.Nombre = "Empresa 1 de Empresas";
+            dataContext.Empresa.InsertOnSubmit(Empresa1);
+
+            Empresa Empresa2 = new Empresa();
+            Empresa2.Nombre = "Empresa 2 de Empresas";
+            dataContext.Empresa.InsertOnSubmit(Empresa2);
+
+            dataContext.SubmitChanges();
+            Principal.ItemsSource = dataContext.Empresa;
         }
     }
 }

@@ -34,8 +34,11 @@ namespace CRUD_LINQ
 
             dataContext = new DataClasses1DataContext(miConexionSQL);
 
-            InsertaEmpresas();
+            //InsertaEmpresas();
             // InsertarEmpleados();
+            //InsertarCargo();
+            //AsignarCargos();
+            MostrarInformacion();
 
         }
 
@@ -83,6 +86,43 @@ namespace CRUD_LINQ
 
             Principal.ItemsSource = dataContext.Empleado;
 
+        }
+
+        public void InsertarCargo()
+        {
+
+            dataContext.ExecuteCommand("delete from Cargo");
+
+            List<Cargo> cargos = new List<Cargo>();
+            cargos.Add(new Cargo { NombreCargo = "Gerente de Sistemas" });
+            cargos.Add(new Cargo { NombreCargo = "Director" });
+            cargos.Add(new Cargo { NombreCargo = "Gerente de Calidad" });
+            cargos.Add(new Cargo { NombreCargo = "Abogado"});
+            dataContext.Cargo.InsertAllOnSubmit(cargos);            
+            dataContext.Cargo.InsertOnSubmit(new Cargo { NombreCargo = "Asistente de Gerencia" });            
+            dataContext.SubmitChanges();
+            Principal.ItemsSource = dataContext.Cargo;
+        }
+
+        public void AsignarCargos()
+        {
+            List<CargoEmpleado> cargosEmp = new List<CargoEmpleado>();
+            cargosEmp.Add(new CargoEmpleado { IdEmpleado = 3, IdCargo = 5 });
+            cargosEmp.Add(new CargoEmpleado { IdEmpleado = 4, IdCargo = 6 });
+            cargosEmp.Add(new CargoEmpleado { IdEmpleado = 5, IdCargo = 7 });
+            cargosEmp.Add(new CargoEmpleado { IdEmpleado = 6, IdCargo = 8 });
+            cargosEmp.Add(new CargoEmpleado { IdEmpleado = 7, IdCargo = 9 });
+
+            dataContext.CargoEmpleado.InsertAllOnSubmit(cargosEmp);
+            dataContext.SubmitChanges();
+            Principal.ItemsSource = dataContext.CargoEmpleado;                     
+
+
+        }
+
+        public void  MostrarInformacion()
+        {
+            Principal.ItemsSource = dataContext.v_informacion;
         }
     }
 }

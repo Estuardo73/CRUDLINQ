@@ -36,6 +36,12 @@ namespace CRUD_LINQ
     partial void InsertEmpleado(Empleado instance);
     partial void UpdateEmpleado(Empleado instance);
     partial void DeleteEmpleado(Empleado instance);
+    partial void InsertCargo(Cargo instance);
+    partial void UpdateCargo(Cargo instance);
+    partial void DeleteCargo(Cargo instance);
+    partial void InsertCargoEmpleado(CargoEmpleado instance);
+    partial void UpdateCargoEmpleado(CargoEmpleado instance);
+    partial void DeleteCargoEmpleado(CargoEmpleado instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -81,6 +87,30 @@ namespace CRUD_LINQ
 			get
 			{
 				return this.GetTable<Empleado>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Cargo> Cargo
+		{
+			get
+			{
+				return this.GetTable<Cargo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CargoEmpleado> CargoEmpleado
+		{
+			get
+			{
+				return this.GetTable<CargoEmpleado>();
+			}
+		}
+		
+		public System.Data.Linq.Table<v_informacion> v_informacion
+		{
+			get
+			{
+				return this.GetTable<v_informacion>();
 			}
 		}
 	}
@@ -213,6 +243,8 @@ namespace CRUD_LINQ
 		
 		private string _Apellido;
 		
+		private EntitySet<CargoEmpleado> _CargoEmpleado;
+		
 		private EntityRef<Empresa> _Empresa;
 		
     #region Definiciones de métodos de extensibilidad
@@ -231,6 +263,7 @@ namespace CRUD_LINQ
 		
 		public Empleado()
 		{
+			this._CargoEmpleado = new EntitySet<CargoEmpleado>(new Action<CargoEmpleado>(this.attach_CargoEmpleado), new Action<CargoEmpleado>(this.detach_CargoEmpleado));
 			this._Empresa = default(EntityRef<Empresa>);
 			OnCreated();
 		}
@@ -319,6 +352,19 @@ namespace CRUD_LINQ
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Empleado_CargoEmpleado", Storage="_CargoEmpleado", ThisKey="Id", OtherKey="IdEmpleado")]
+		public EntitySet<CargoEmpleado> CargoEmpleado
+		{
+			get
+			{
+				return this._CargoEmpleado;
+			}
+			set
+			{
+				this._CargoEmpleado.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Empresa_Empleado", Storage="_Empresa", ThisKey="IdEmpresa", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Empresa Empresa
 		{
@@ -370,6 +416,405 @@ namespace CRUD_LINQ
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CargoEmpleado(CargoEmpleado entity)
+		{
+			this.SendPropertyChanging();
+			entity.Empleado = this;
+		}
+		
+		private void detach_CargoEmpleado(CargoEmpleado entity)
+		{
+			this.SendPropertyChanging();
+			entity.Empleado = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Cargo")]
+	public partial class Cargo : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _NombreCargo;
+		
+		private EntitySet<CargoEmpleado> _CargoEmpleado;
+		
+    #region Definiciones de métodos de extensibilidad
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNombreCargoChanging(string value);
+    partial void OnNombreCargoChanged();
+    #endregion
+		
+		public Cargo()
+		{
+			this._CargoEmpleado = new EntitySet<CargoEmpleado>(new Action<CargoEmpleado>(this.attach_CargoEmpleado), new Action<CargoEmpleado>(this.detach_CargoEmpleado));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NombreCargo", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string NombreCargo
+		{
+			get
+			{
+				return this._NombreCargo;
+			}
+			set
+			{
+				if ((this._NombreCargo != value))
+				{
+					this.OnNombreCargoChanging(value);
+					this.SendPropertyChanging();
+					this._NombreCargo = value;
+					this.SendPropertyChanged("NombreCargo");
+					this.OnNombreCargoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cargo_CargoEmpleado", Storage="_CargoEmpleado", ThisKey="Id", OtherKey="IdCargo")]
+		public EntitySet<CargoEmpleado> CargoEmpleado
+		{
+			get
+			{
+				return this._CargoEmpleado;
+			}
+			set
+			{
+				this._CargoEmpleado.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CargoEmpleado(CargoEmpleado entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cargo = this;
+		}
+		
+		private void detach_CargoEmpleado(CargoEmpleado entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cargo = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CargoEmpleado")]
+	public partial class CargoEmpleado : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdEmpleado;
+		
+		private int _IdCargo;
+		
+		private EntityRef<Cargo> _Cargo;
+		
+		private EntityRef<Empleado> _Empleado;
+		
+    #region Definiciones de métodos de extensibilidad
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdEmpleadoChanging(int value);
+    partial void OnIdEmpleadoChanged();
+    partial void OnIdCargoChanging(int value);
+    partial void OnIdCargoChanged();
+    #endregion
+		
+		public CargoEmpleado()
+		{
+			this._Cargo = default(EntityRef<Cargo>);
+			this._Empleado = default(EntityRef<Empleado>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEmpleado", DbType="Int NOT NULL")]
+		public int IdEmpleado
+		{
+			get
+			{
+				return this._IdEmpleado;
+			}
+			set
+			{
+				if ((this._IdEmpleado != value))
+				{
+					if (this._Empleado.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdEmpleadoChanging(value);
+					this.SendPropertyChanging();
+					this._IdEmpleado = value;
+					this.SendPropertyChanged("IdEmpleado");
+					this.OnIdEmpleadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCargo", DbType="Int NOT NULL")]
+		public int IdCargo
+		{
+			get
+			{
+				return this._IdCargo;
+			}
+			set
+			{
+				if ((this._IdCargo != value))
+				{
+					if (this._Cargo.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdCargoChanging(value);
+					this.SendPropertyChanging();
+					this._IdCargo = value;
+					this.SendPropertyChanged("IdCargo");
+					this.OnIdCargoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cargo_CargoEmpleado", Storage="_Cargo", ThisKey="IdCargo", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Cargo Cargo
+		{
+			get
+			{
+				return this._Cargo.Entity;
+			}
+			set
+			{
+				Cargo previousValue = this._Cargo.Entity;
+				if (((previousValue != value) 
+							|| (this._Cargo.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Cargo.Entity = null;
+						previousValue.CargoEmpleado.Remove(this);
+					}
+					this._Cargo.Entity = value;
+					if ((value != null))
+					{
+						value.CargoEmpleado.Add(this);
+						this._IdCargo = value.Id;
+					}
+					else
+					{
+						this._IdCargo = default(int);
+					}
+					this.SendPropertyChanged("Cargo");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Empleado_CargoEmpleado", Storage="_Empleado", ThisKey="IdEmpleado", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Empleado Empleado
+		{
+			get
+			{
+				return this._Empleado.Entity;
+			}
+			set
+			{
+				Empleado previousValue = this._Empleado.Entity;
+				if (((previousValue != value) 
+							|| (this._Empleado.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Empleado.Entity = null;
+						previousValue.CargoEmpleado.Remove(this);
+					}
+					this._Empleado.Entity = value;
+					if ((value != null))
+					{
+						value.CargoEmpleado.Add(this);
+						this._IdEmpleado = value.Id;
+					}
+					else
+					{
+						this._IdEmpleado = default(int);
+					}
+					this.SendPropertyChanged("Empleado");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_informacion")]
+	public partial class v_informacion
+	{
+		
+		private string _Empresa;
+		
+		private string _Nombre;
+		
+		private string _Apellido;
+		
+		private string _NombreCargo;
+		
+		public v_informacion()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Empresa", DbType="NVarChar(50)")]
+		public string Empresa
+		{
+			get
+			{
+				return this._Empresa;
+			}
+			set
+			{
+				if ((this._Empresa != value))
+				{
+					this._Empresa = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nombre
+		{
+			get
+			{
+				return this._Nombre;
+			}
+			set
+			{
+				if ((this._Nombre != value))
+				{
+					this._Nombre = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Apellido", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Apellido
+		{
+			get
+			{
+				return this._Apellido;
+			}
+			set
+			{
+				if ((this._Apellido != value))
+				{
+					this._Apellido = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NombreCargo", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string NombreCargo
+		{
+			get
+			{
+				return this._NombreCargo;
+			}
+			set
+			{
+				if ((this._NombreCargo != value))
+				{
+					this._NombreCargo = value;
+				}
 			}
 		}
 	}
